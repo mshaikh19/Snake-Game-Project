@@ -1,11 +1,11 @@
 #include <iostream>
 
-#include "game_grid.h"
+#include "GameGrid.h"
 #include "Snake.h"
+
 using namespace std;
 
-void drawGameGrid(); 
 int main(){
-	drawGameGrid();
+	
 }
 	
