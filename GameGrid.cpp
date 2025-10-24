@@ -71,6 +71,3 @@ void drawGameGrid(const Snake& snake, int score){
 	
 	cout << endl;
 }
-
-
-

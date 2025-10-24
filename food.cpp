@@ -19,4 +19,3 @@ int Food::getX() const {
 int Food::getY() const {
     return y;
 }
-

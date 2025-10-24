@@ -2,6 +2,7 @@
 #define SNAKE_H
 
 #include <vector>
+using namespace std;
 
 extern const int gridHeight;
 extern const int gridWidth;
@@ -9,6 +10,7 @@ extern const int gridWidth;
 struct Point{
 	int x, y;	
 };
+
 
 class Snake {
 private:
@@ -21,15 +23,16 @@ public:
     
 	void move(char direction, bool grow = false);
     
-    bool isCollision();
+    bool isCollision() const;
     
-    const vector<Point>& getSnakeBody() {
+    const vector<Point>& getSnakeBody() const{
     	return body;
 	}
-	char getDirection(){
+	char getDirection() const{
 		return currentDirection;
 	}
     
 };
+
 
 #endif

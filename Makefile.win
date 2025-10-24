@@ -1,0 +1,37 @@
+# Project: SnakeGameProject
+# Makefile created by Embarcadero Dev-C++ 6.3
+
+CPP      = g++.exe -D__DEBUG__
+CC       = gcc.exe -D__DEBUG__
+WINDRES  = windres.exe
+OBJ      = GameGrid.o Snake.o SnakeGame.o Food.o
+LINKOBJ  = GameGrid.o Snake.o SnakeGame.o Food.o
+LIBS     = -L"D:/Softwares/DevC/Dev-Cpp/TDM-GCC-64/lib" -L"D:/Softwares/DevC/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/lib" -static-libgcc -g3
+INCS     = -I"D:/Softwares/DevC/Dev-Cpp/TDM-GCC-64/include" -I"D:/Softwares/DevC/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"D:/Softwares/DevC/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include"
+CXXINCS  = -I"D:/Softwares/DevC/Dev-Cpp/TDM-GCC-64/include" -I"D:/Softwares/DevC/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"D:/Softwares/DevC/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"D:/Softwares/DevC/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/c++"
+BIN      = SnakeGameProject.exe
+CXXFLAGS = $(CXXINCS) -g3
+CFLAGS   = $(INCS) -g3
+DEL      = D:\Softwares\DevC\Dev-Cpp\DevCpp.exe INTERNAL_DEL
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${DEL} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+GameGrid.o: GameGrid.cpp
+	$(CPP) -c GameGrid.cpp -o GameGrid.o $(CXXFLAGS)
+
+Snake.o: Snake.cpp
+	$(CPP) -c Snake.cpp -o Snake.o $(CXXFLAGS)
+
+SnakeGame.o: SnakeGame.cpp
+	$(CPP) -c SnakeGame.cpp -o SnakeGame.o $(CXXFLAGS)
+
+Food.o: Food.cpp
+	$(CPP) -c Food.cpp -o Food.o $(CXXFLAGS)
