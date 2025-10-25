@@ -3,7 +3,7 @@
 using namespace std;
 
 // Initialize the Snake with initial direction and length
-Snake::Snake(int width, int height, int startX, int startY, int length = 3)
+Snake::Snake(int startX, int startY, int length = 3)
     : currentDirection('D') {
     for (int i = 0; i < length; ++i) {
         body.push_back({startX - i, startY});
@@ -14,7 +14,7 @@ Snake::Snake(int width, int height, int startX, int startY, int length = 3)
 void Snake::setDirection(char newDirection){
 	char snakeDirection = 0;
 	
-	if (newDirection == 'w' || newDirection == 'W') {
+	if (newDirection == 'w' || newDirection == 'W') {	
         snakeDirection = 'W';
     } else if (newDirection == 's' || newDirection == 'S') {
         snakeDirection = 'S';
@@ -39,12 +39,12 @@ void Snake::setDirection(char newDirection){
     currentDirection = snakeDirection;
 }
 
-Snake::void move(char direction, bool grow = false) {
+void Snake::move(char direction, bool grow) {
 	setDirection(direction);
     Point newHead = body[0];
     
 //	Determine the position of the head based on the input of the user 
-    switch (currenrDirection) {
+    switch (currentDirection) {
         case 'W': newHead.y--; break;
         case 'S': newHead.y++; break;
         case 'A': newHead.x--; break;
