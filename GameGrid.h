@@ -14,9 +14,8 @@ class GameGrid{
 	private:
 		int width;
 		int height;
-		
+		void setCursorPosition(int x, int y);
 		void clearScreen();
-		
 	public:
 		GameGrid(int width, int height);
 		
