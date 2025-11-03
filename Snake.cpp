@@ -1,6 +1,8 @@
+using namespace std;
 #include <iostream>
 #include <vector>
-using namespace std;
+#include "Snake.h"
+
 
 // Initialize the Snake with initial direction and length
 Snake::Snake(int startX, int startY, int length = 3)
@@ -14,7 +16,7 @@ Snake::Snake(int startX, int startY, int length = 3)
 void Snake::setDirection(char newDirection){
 	char snakeDirection = 0;
 	
-	if (newDirection == 'w' || newDirection == 'W') {	
+	if (newDirection == 'w' || newDirection == 'W') {
         snakeDirection = 'W';
     } else if (newDirection == 's' || newDirection == 'S') {
         snakeDirection = 'S';
@@ -22,11 +24,8 @@ void Snake::setDirection(char newDirection){
         snakeDirection = 'A';
     } else if (newDirection == 'd' || newDirection == 'D') {
         snakeDirection = 'D';
-    } else if (newDirection == 'q' || newDirection == 'Q') {
-        // Quit Game Handling
-        gameOver = true;
     } else {
-        gameOver = true;
+        return;
     }
 	
 	if ((snakeDirection == 'W' && currentDirection == 'S') ||
@@ -39,7 +38,7 @@ void Snake::setDirection(char newDirection){
     currentDirection = snakeDirection;
 }
 
-void Snake::move(char direction, bool grow) {
+Point Snake::move(char direction, bool grow) {
 	setDirection(direction);
     Point newHead = body[0];
     
@@ -51,6 +50,9 @@ void Snake::move(char direction, bool grow) {
         case 'D': newHead.x++; break;
     }
     
+//  Store the old tail of the snake before it is removed
+    Point oldTail = body.back();
+    
 //  Adding the new head in front of the body of the snake
     body.insert(body.begin(), newHead);
     
@@ -58,9 +60,11 @@ void Snake::move(char direction, bool grow) {
     if (!grow){
         body.pop_back();
 	}
+	
+	return oldTail;
 }
 
-Snake::bool isCollision() const {
+bool Snake::isCollision() const {
     const Point& head = body[0];
     
 //  Check the collision of the snake with the boundry
@@ -75,58 +79,4 @@ Snake::bool isCollision() const {
 		}
 	}
     return false;
-}
-
-    void draw() const {
-        cout << "|";
-        for (int i = 0; i < gridWidth; ++i) cout << "-";
-        cout << "|\n";
-
-        for (int y = 0; y < gridHeight; ++y) {
-            cout << "|";
-            for (int x = 0; x < gridWidth; ++x) {
-                if (x == body[0].x && y == body[0].y) {
-                    cout << "@";  // head
-                } else {
-                    bool isBody = false;
-                    for (int k = 1; k < body.size(); ++k) {
-                        if (body[k].x == x && body[k].y == y) {
-                            cout << "o";  // body
-                            isBody = true;
-                            break;
-                        }
-                    }
-                    if (!isBody)
-                        cout << ".";
-                }
-            }
-            cout << "|\n";
-        }
-
-        cout << "|";
-        for (int i = 0; i < gridWidth; ++i) cout << "-";
-        cout << "|\n";
-    }
-};
-
-int main() {
-    const int width = 20, height = 10;
-    Snake snake(width, height, width / 2, height / 2);
-
-    snake.draw();  // initial draw
-
-    snake.move('R');
-    snake.draw();
-
-    snake.move('D');
-    snake.draw();
-
-    snake.move('L', true);  // grow
-    snake.draw();
-
-    if (snake.isCollision()) {
-        cout << "Collision detected!\n";
-    } else {
-        cout << "No collision.\n";
-    }
 }
