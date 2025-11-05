@@ -4,8 +4,6 @@
 #include <vector>
 using namespace std;
 
-extern const int gridHeight;
-extern const int gridWidth;
 
 struct Point{
 	int x, y;	
@@ -13,15 +11,18 @@ struct Point{
 
 
 class Snake {
-private:
+	private:
+	
+	int gridHeight;
+	int gridWidth;
     vector<Point> body;
     char currentDirection;
 public:
-    Snake(int startX, int startY, int length);
+    Snake(int startX, int startY, int length, int width, int height);
     
     void setDirection(char newDirection);
     
-	void move(char direction, bool grow = false);
+	Point move(char direction, bool grow = false);
     
     bool isCollision() const;
     
@@ -31,8 +32,5 @@ public:
 	char getDirection() const{
 		return currentDirection;
 	}
-    
 };
-
-
 #endif
