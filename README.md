@@ -1,4 +1,4 @@
-# Snake-Game-Project
+# Snake-Game-Project🐍
 Building a Snake Game for C++ Project.
 
 ## Description
@@ -9,8 +9,8 @@ This project is a classic Snake game implemented in C++ for the console environm
 
 - Responsive console-based gameplay
 - Dynamic snake growth upon eating food
-- Random food placement on the grid
-- Collision detection (walls and self)
+- Random food placement on the grid🍎
+- Collision detection (walls🧱 and self)
 - Simple and modular code architecture
 
 ## Technologies Used
