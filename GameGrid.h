@@ -7,15 +7,12 @@
 
 class Snake;
 
-extern const int gridHeight;
-extern const int gridWidth;
 
 class GameGrid{
 	private:
 		int width;
 		int height;
 		void setCursorPosition(int x, int y);
-		void clearScreen();
 	public:
 		GameGrid(int width, int height);
 		
@@ -25,6 +22,8 @@ class GameGrid{
 //		Draw Empty Grid
 		void drawGameGrid();
 		
+		// void drawHeader(int score, char direction);
+		// void drawFooter();
 //		Draw grid along with the snake and the score
 		void drawGameGrid(const Snake& snake, const Food& food, int score);
 		
