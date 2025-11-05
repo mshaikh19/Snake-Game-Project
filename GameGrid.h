@@ -21,9 +21,11 @@ class GameGrid{
 		
 //		Draw Empty Grid
 		void drawGameGrid();
-		
+		void clearScreen();
 		// void drawHeader(int score, char direction);
 		// void drawFooter();
+		void showGameOver(int finalScore);
+		void showCursor();
 //		Draw grid along with the snake and the score
 		void drawGameGrid(const Snake& snake, const Food& food, int score);
 		
