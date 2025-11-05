@@ -4,20 +4,19 @@
 #include "Snake.h"
 #include <vector>
 
-using namespace std;
 
 class Food {
 private:
-	Point position;
+    int gridWidth;
+    int gridHeight;
+    Point position;
 public:
-    Food();
-    
+    Food(int width, int height);
     void randomFoodPosition(const vector<Point>& snakeBody);
-    
-    
-    Point getPosition() const{
-    	return position;
-	}
+
+    Point getPosition() const {
+        return position;
+    }
 };
 
 #endif
