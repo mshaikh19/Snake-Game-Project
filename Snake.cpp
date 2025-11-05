@@ -5,8 +5,8 @@ using namespace std;
 
 
 // Initialize the Snake with initial direction and length
-Snake::Snake(int startX, int startY, int length = 3)
-    : currentDirection('D') {
+Snake::Snake(int startX, int startY, int length, int width, int height)
+    : currentDirection('D'), gridHeight(height), gridWidth(width) {
     for (int i = 0; i < length; ++i) {
         body.push_back({startX - i, startY});
     }
@@ -80,3 +80,4 @@ bool Snake::isCollision() const {
 	}
     return false;
 }
+
