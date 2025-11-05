@@ -1,8 +1,11 @@
-#include "food.h"
+#include "Food.h"
 #include <cstdlib>
 #include <ctime>
 
-Food::Food() {
+using namespace std;
+
+Food::Food(int width, int height) 
+	: gridHeight(height), gridWidth(width) {
     static bool seeded = false;
 
 	if (!seeded) {
@@ -25,7 +28,7 @@ void Food::randomFoodPosition(const vector<Point>& snakeBody) {
     	
     	bool onSnake = false;
     	
-//    	Checking if the food overlaps with the food
+//    	Checking if the food overlaps with the snake
 		for(const auto& segment : snakeBody){
 			if(segment.x == newPosition.x && segment.y == newPosition.y){
 				onSnake = true;
@@ -39,3 +42,11 @@ void Food::randomFoodPosition(const vector<Point>& snakeBody) {
 		}
 	}
 }
+
+//int Food::getX() const {
+//    return newPosition.x;
+//}
+//
+//int Food::getY() const {
+//    return newPosition.y;
+//}
