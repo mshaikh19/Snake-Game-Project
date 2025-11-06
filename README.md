@@ -77,8 +77,10 @@ Follow these steps to run the project:
 
   g++ Snake.o Food.o GameGrid.o SnakeGame.o -o SnakeGame
 
-  ./SnakeGame ``` (For Ubuntu)
-```SnakeGame.exe ``` (For Windows)
+  ./SnakeGame
+```
+or 
+` SnakeGame.exe ` (For Windows)
 
 
 
