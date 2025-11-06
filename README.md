@@ -68,7 +68,8 @@ To run this project on your PC, you need:
 
 ## Compilation and Execution Instructions
 
-Follow these steps to run the project:
+Follow these steps to compile the project:
+
 ```
   g++ -c Snake.cpp -o Snake.o
   g++ -c Food.cpp -o Food.o
@@ -77,8 +78,10 @@ Follow these steps to run the project:
 
   g++ Snake.o Food.o GameGrid.o SnakeGame.o -o SnakeGame
 
-  ./SnakeGame
 ```
+To run the game : 
+
+` ./SnakeGame ` (For Linux)
 or 
 ` SnakeGame.exe ` (For Windows)
 
