@@ -39,6 +39,7 @@ Move the snake using the following keys:
   - A (LEFT) ⬅️
   - S (DOWN) ⬇️
   - D (RIGHT) ➡️
+
 Press the respective keys during gameplay to control the snake’s movement.
 
 ## How It Works
