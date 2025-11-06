@@ -63,9 +63,26 @@ To run this project on your PC, you need:
 - A modern operating system (Windows / Ubuntu)
 - A C++ compiler supporting C++11 or later (e.g., g++, clang++, MSVC)
 - Command line/terminal access to compile and run the executable
-- For Windows users: `conio.h` support (available in MinGW or Visual Studio environments). If you don't have MinGW installed, you can download it from [MinGW-w64](https://sourceforge.net/projects/mingw-w64/) and follow the installation instructions to set up the GCC compiler on your system.
+- MinGW (If you don't have MinGW installed, you can download it from [MinGW-w64](https://sourceforge.net/projects/mingw-w64/) and follow the installation instructions to set up the GCC compiler on your system).
 - Basic familiarity with command line usage for compilation and execution
 
+## Compilation and Execution Instructions
+
+Follow these steps to run the project:
+```
+  g++ -c Snake.cpp -o Snake.o
+  g++ -c Food.cpp -o Food.o
+  g++ -c GameGrid.cpp -o GameGrid.o
+  g++ -c SnakeGame.cpp -o SnakeGame.o
+
+  g++ Snake.o Food.o GameGrid.o SnakeGame.o -o SnakeGame
+
+  ./SnakeGame ``` (For Ubuntu)
+```SnakeGame.exe ``` (For Windows)
+
+
+
+  
 ## Future Improvements
   - Add increasing difficulty or speed levels
   - Add sound effects during gameplay
