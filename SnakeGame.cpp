@@ -1,28 +1,121 @@
 #include <iostream>
-#include <conio.h>
-#include <windows.h>
-#include <io.h>     
-#include <fcntl.h> 
-#include <thread>
-#include <chrono>
+#include <vector>
+#include <cstdio>
+
+#include <locale>
+#include <clocale>
+// #include <conio.h>
+// #include <windows.h>
+// #include <io.h>     
+// #include <fcntl.h> 
+// #include <thread>
+// #include <chrono>
+
+#ifdef _WIN32
+    #include <conio.h>
+    #include <windows.h>
+#else
+    #include <unistd.h>
+    #include <termios.h>
+    #include <fcntl.h>
+    #include <sys/ioctl.h>
+#endif
+
 #include "Snake.h"
 #include "GameGrid.h"
 #include "Food.h"
 
 using namespace std;
-void showCursor() {
-    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_CURSOR_INFO info;
-    info.dwSize = 100;
-    info.bVisible = TRUE;
-    SetConsoleCursorInfo(consoleHandle, &info);
+
+// Cross-platform sleep function (milliseconds)
+void sleep_ms(int ms) {
+    #ifdef _WIN32
+        Sleep(ms);
+    #else
+        usleep(ms * 1000);
+    #endif
 }
 
 
-int main() {
-    system("chcp 65001");
-    // Sleep(5000);
+void showCursor() {
+    // HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    // CONSOLE_CURSOR_INFO info;
+    // info.dwSize = 100;
+    // info.bVisible = TRUE;
+    // SetConsoleCursorInfo(consoleHandle, &info);
+
+    #ifdef _WIN32
+        HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+        CONSOLE_CURSOR_INFO info;
+        info.dwSize = 100;
+        info.bVisible = TRUE;
+        SetConsoleCursorInfo(consoleHandle, &info);
+    #else
+        cout << "\e[?25h" << flush;  // ANSI escape to show cursor
+    #endif
+}
+
+// Cross-platform kbhit() and getch()
+#ifdef _WIN32
+    // Use _kbhit() and _getch() directly
+    #define kbhit _kbhit
+    #define getch _getch
+#else
+    int kbhit() {
+        static const int STDIN = 0;
+        static bool initialized = false;
+
+        if (!initialized) {
+            termios term;
+            tcgetattr(STDIN, &term);
+            term.c_lflag &= ~ICANON;  // Disable line buffering
+            term.c_lflag &= ~ECHO;    // Turn off echo
+            tcsetattr(STDIN, TCSANOW, &term);
+            setbuf(stdin, NULL);
+            initialized = true;
+        }
+
+        int bytesWaiting;
+        ioctl(STDIN, FIONREAD, &bytesWaiting);
+        return bytesWaiting > 0;
+    }
+
+    int getch() {
+        return getchar();
+    }
+#endif
+
+// Cross-platform clear screen
+void clearScreen() {
+#ifdef _WIN32
     system("cls");
+#else
+    // system("clear");
+    std::cout << "\033[H\033[2J\033[3J" << std::flush;
+#endif
+}
+
+// void clearScreen() {
+//     system("cls");
+// }
+
+int main() {
+    // system("chcp 65001");
+    // Sleep(5000);
+    // system("cls");
+
+    clearScreen();
+
+    #ifdef _WIN32
+        system("chcp 65001"); // Enable UTF-8 console on Windows
+    #else
+        setlocale(LC_ALL, "");
+        std::locale::global(std::locale(""));
+    #endif  
+    // Cross-platform clear screen
+    
+    // clearScreen();
+    
 
     bool playAgain = true;
 
@@ -41,11 +134,12 @@ int main() {
         
         while (!gameOver) {
             // Draw
+            // grid.clearScreen();
             grid.drawGameGrid(snake, food, score);
             
             // Input
-            if (_kbhit()) {
-                char input = _getch();
+            if (kbhit()) {
+                char input = getch();
                 if (input == 'x' || input == 'X'){
                     break;
                 }
@@ -73,7 +167,9 @@ int main() {
             }
     
            
-            Sleep(200); // Game speed
+            // Sleep(200); // Game speed
+
+            sleep_ms(200);
         }
     
 
@@ -83,26 +179,30 @@ int main() {
             // Wait for user choice
             bool validInput = false;
             while (!validInput) {
-                if (_kbhit()) {
-                    char choice = _getch();
+                if (kbhit()) {
+                    char choice = getch();
                     
                     if (choice == '\r' || choice == '\n') {  // ENTER key
                         playAgain = true;
                         validInput = true;
-                        system("cls");
+                        // system("cls");
+
+                        clearScreen();
                     } else if (choice == 'q' || choice == 'Q') {  // Q key
                         playAgain = false;
                         validInput = true;
                     }
                 }
-                Sleep(50);  // Small delay to prevent CPU overuse
+                // Sleep(50);  // Small delay to prevent CPU overuse
+                sleep_ms(50);
             }
         }
         // cout << "Game Over! Final score: " << score << "\n";
         // system("pause");
     }
 
-    system("cls");
+    // system("cls");
+    clearScreen();
     
     cout << "\n\n";
     cout << "    ╔══════════════════════════════════════════════════════╗\n";
