@@ -16,14 +16,22 @@ This project is a classic Snake game implemented in C++ for the console environm
 ## Screenshots
 
 Here is a preview of the game in action:
+
+### Windows 
+
+<img width="1920" height="1080" alt="Screenshot (768)" src="https://github.com/user-attachments/assets/48a2cda9-440b-4724-ba1e-48c7e2bac460" />
+<img width="1920" height="1080" alt="Screenshot (769)" src="https://github.com/user-attachments/assets/8774bccf-d61c-4f08-81d0-52f505fca04f" />
+<img width="1920" height="1080" alt="Screenshot (767)" src="https://github.com/user-attachments/assets/eed7216d-0539-4e40-95bd-fb815a3167a5" />
+
+
+### Ubuntu
+
 ![WhatsApp Image 2025-11-06 at 16 19 53_5c227443](https://github.com/user-attachments/assets/31645aef-d780-4659-aa8b-eb6f6200e39f)
 ![WhatsApp Image 2025-11-06 at 16 19 53_57d8f208](https://github.com/user-attachments/assets/ae8764ec-b48a-44fb-bb19-e50d26c2fd94)
 ![WhatsApp Image 2025-11-06 at 16 19 44_a024c202](https://github.com/user-attachments/assets/83f0487a-1f5b-4aea-8726-dcc6e6428cb0)
 
 
-<img width="1920" height="1080" alt="Screenshot (768)" src="https://github.com/user-attachments/assets/48a2cda9-440b-4724-ba1e-48c7e2bac460" />
-<img width="1920" height="1080" alt="Screenshot (769)" src="https://github.com/user-attachments/assets/8774bccf-d61c-4f08-81d0-52f505fca04f" />
-<img width="1920" height="1080" alt="Screenshot (767)" src="https://github.com/user-attachments/assets/eed7216d-0539-4e40-95bd-fb815a3167a5" />
+
 
 ## Controls
 Move the snake using the following keys:
