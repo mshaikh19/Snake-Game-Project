@@ -1,8 +1,17 @@
 #include "GameGrid.h"
 #include "Snake.h"
 #include "Food.h"
+#include <iostream>
+#include <cstdio>
+// #include <windows.h>
 
-#include <windows.h>
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <unistd.h>
+    #include <termios.h>
+    
+#endif
 #include <vector>
 
 
@@ -19,24 +28,99 @@ int GameGrid::getHeight() const{
 	return height;
 }
 
+// void hideCursor() {
+//     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+//     CONSOLE_CURSOR_INFO info;
+//     info.dwSize = 100; 
+//     info.bVisible = FALSE; 
+//     SetConsoleCursorInfo(consoleHandle, &info);
+// }
+
+// Cross-platform hide cursor
 void hideCursor() {
+#ifdef _WIN32
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO info;
-    info.dwSize = 100; 
-    info.bVisible = FALSE; 
+    info.dwSize = 100;
+    info.bVisible = FALSE;
     SetConsoleCursorInfo(consoleHandle, &info);
+#else
+    cout << "\e[?25l" << flush;
+#endif
 }
 
+// void GameGrid::setCursorPosition(int x, int y) {
+//     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+//     COORD pos = {(SHORT)x, (SHORT)y};
+//     SetConsoleCursorPosition(hConsole, pos);
+// }
+
+// // Set console text color
+// void setColor(int color) {
+//     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+//     SetConsoleTextAttribute(hConsole, color);
+// }
+
+// Cross-platform set cursor position
 void GameGrid::setCursorPosition(int x, int y) {
+#ifdef _WIN32
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD pos = {(SHORT)x, (SHORT)y};
     SetConsoleCursorPosition(hConsole, pos);
+#else
+    std::cout << "\033[" << (y+1) << ";" << (x+1) << "H" << std::flush;
+#endif
 }
 
-// Set console text color
+// Cross-platform set text color
 void setColor(int color) {
+#ifdef _WIN32
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, color);
+#else
+    // Using ANSI color codes for Linux
+    // Common color mapping (simplified):
+    // 0=black, 7=white, 8=gray, 10=green, 12=red, 13=magenta, 14=yellow, 15=bright white
+    switch(color) {
+        case 0: cout << "\e[30m"; break; // Black
+        case 7: cout << "\e[37m"; break; // White
+        case 8: cout << "\e[90m"; break; // Gray
+        case 10: cout << "\e[32m"; break; // Green
+        case 11: cout << "\e[36m"; break; // Cyan
+        case 12: cout << "\e[31m"; break; // Red
+        case 13: cout << "\e[35m"; break; // Magenta
+        case 14: cout << "\e[33m"; break; // Yellow
+        case 15: cout << "\e[97m"; break; // Bright white
+        default: cout << "\e[0m"; break;  // Reset/default
+    }
+#endif
+}
+
+// Cross-platform clear screen
+void GameGrid::clearScreen() {
+#ifdef _WIN32
+    system("cls");
+#else
+    // system("clear");
+    std::cout << "\033[H\033[2J\033[3J" << std::flush;
+#endif
+}
+
+// void GameGrid::clearScreen() {
+//     system("cls");
+// }
+
+// Cross-platform show cursor
+void GameGrid::showCursor() {
+#ifdef _WIN32
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO info;
+    info.dwSize = 100;
+    info.bVisible = TRUE;
+    SetConsoleCursorInfo(consoleHandle, &info);
+#else
+    cout << "\e[?25h" << flush;  // ANSI escape to show cursor
+#endif
 }
 
 // Drawing the empty grid
@@ -71,17 +155,17 @@ void GameGrid::drawGameGrid() {
 }
 
 
-void GameGrid::showCursor() {
-    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_CURSOR_INFO info;
-    info.dwSize = 100;
-    info.bVisible = TRUE;
-    SetConsoleCursorInfo(consoleHandle, &info);
-}
+// void GameGrid::showCursor() {
+//     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+//     CONSOLE_CURSOR_INFO info;
+//     info.dwSize = 100;
+//     info.bVisible = TRUE;
+//     SetConsoleCursorInfo(consoleHandle, &info);
+// }
 
-void GameGrid::clearScreen() {
-    system("cls");
-}
+// void GameGrid::clearScreen() {
+//     system("cls");
+// }
 
 void GameGrid::showGameOver(int finalScore) {
     clearScreen();
@@ -311,18 +395,25 @@ void GameGrid::drawGameGrid(const Snake& snake, const Food& food, int score){
 			// }
 
 			if(!isDrawn){
-				// Diagonal pattern for visual interest
-				if((i + j) % 3 == 0) {
-					setColor(8);
-					cout << "◾"; // Small square
-				} else if((i + j) % 3 == 1) {
-					setColor(8);
-					cout << "▪️"; // Tiny square
-				} else {
-					setColor(0);
-					cout << "⬛"; // Large square
-				}
-				setColor(7);
+
+                #ifdef _WIN32
+                    // Diagonal pattern for visual interest
+                    if((i + j) % 3 == 0) {
+                        setColor(8);
+                        cout << "◾"; // Small square
+                    } else if((i + j) % 3 == 1) {
+                        setColor(8);
+                        cout << "▪️"; // Tiny square
+                    } else {
+                        setColor(0);
+                        cout << "⬛"; // Large square
+                    }
+                    setColor(7);
+
+                #else 
+                    setColor(8);
+                    cout << "◾";
+                #endif
 			}
 		}
 		
