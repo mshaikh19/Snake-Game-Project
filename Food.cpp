@@ -18,7 +18,7 @@ Food::Food(int width, int height)
     }
 }
 
-void Food::randomFoodPosition(const vector<Point>& snakeBody) {
+void Food::randomFoodPosition(const vector<Point>& snakeBody1, const vector<Point>& snakeBody2) {
 	Point newPosition;
 	bool placed = false;
 	
@@ -28,11 +28,21 @@ void Food::randomFoodPosition(const vector<Point>& snakeBody) {
     	
     	bool onSnake = false;
     	
-//    	Checking if the food overlaps with the snake
-		for(const auto& segment : snakeBody){
+//    	Checking if the food overlaps with snake1
+		for(const auto& segment : snakeBody1){
 			if(segment.x == newPosition.x && segment.y == newPosition.y){
 				onSnake = true;
 				break;
+			}
+		}
+		
+//    	Checking if the food overlaps with snake2
+		if(!onSnake){
+			for(const auto& segment : snakeBody2){
+				if(segment.x == newPosition.x && segment.y == newPosition.y){
+					onSnake = true;
+					break;
+				}
 			}
 		}
 		

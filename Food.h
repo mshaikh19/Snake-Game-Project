@@ -12,7 +12,7 @@ private:
     Point position;
 public:
     Food(int width, int height);
-    void randomFoodPosition(const vector<Point>& snakeBody);
+    void randomFoodPosition(const vector<Point>& snakeBody1, const vector<Point>& snakeBody2);
 
     Point getPosition() const {
         return position;

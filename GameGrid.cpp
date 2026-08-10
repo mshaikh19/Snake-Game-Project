@@ -167,7 +167,7 @@ void GameGrid::drawGameGrid() {
 //     system("cls");
 // }
 
-void GameGrid::showGameOver(int finalScore) {
+void GameGrid::showGameOver(int score1, int score2, int loser) {
     clearScreen();
     setCursorPosition(0, 0);
     hideCursor();
@@ -196,6 +196,12 @@ void GameGrid::showGameOver(int finalScore) {
     setColor(7);
     cout << endl << endl;
     
+    // ═══════════════════ LOSER ANNOUNCEMENT ═══════════════════
+    setColor(12); // Red
+    cout << "  💀 Player " << loser << " lost!\n";
+    setColor(7);
+    cout << endl;
+    
     // ═══════════════════ SCORE DISPLAY ═══════════════════
     setColor(14); // Yellow
     cout << "╔════════════════════════════════════╗\n";
@@ -203,48 +209,24 @@ void GameGrid::showGameOver(int finalScore) {
     
     cout << "║        ";
     setColor(11); // Cyan
-    cout << "🏆 FINAL SCORE 🏆";
+    cout << "🏆 FINAL SCORES 🏆";
     setColor(14);
-    cout << "           ║\n";
-    
-    cout << "║                                    ║\n";
-    cout << "║              ";
-    setColor(15); // White
-    printf("%06d", finalScore);
-    setColor(14);
-    cout << "                ║\n";
-    
-    cout << "║                                    ║\n";
-    cout << "╚════════════════════════════════════╝\n";
-    
-    cout << endl;
-    
-    // ═══════════════════ STATISTICS ═══════════════════
-    setColor(10); // Green
-    cout << "╔════════════════════════════════════╗\n";
-    cout << "║          ";
-    setColor(13); // Magenta
-    cout << "📊 STATISTICS 📊";
-    setColor(10);
     cout << "          ║\n";
-    cout << "╠════════════════════════════════════╣\n";
     
-    cout << "║  ";
-    setColor(7);
-    cout << "🍎 Apples Eaten:       ";
+    cout << "║                                    ║\n";
+    cout << "║  Player 1: ";
+    setColor(15); // White
+    printf("%06d", score1);
+    setColor(14);
+    cout << "               ║\n";
+    
+    cout << "║  Player 2: ";
     setColor(15);
-    printf("%3d", finalScore / 10);
-    setColor(10);
-    cout << "        ║\n";
+    printf("%06d", score2);
+    setColor(14);
+    cout << "               ║\n";
     
-    cout << "║  ";
-    setColor(7);
-    cout << "🐍 Final Length:       ";
-    setColor(15);
-    printf("%3d", (finalScore / 10) + 2);
-    setColor(10);
-    cout << "        ║\n";
-    
+    cout << "║                                    ║\n";
     cout << "╚════════════════════════════════════╝\n";
     
     cout << endl;
@@ -274,8 +256,8 @@ void GameGrid::showGameOver(int finalScore) {
     showCursor();
 }
 
-// Drawing the Grid along with the initial position of the Snake on the terminal
-void GameGrid::drawGameGrid(const Snake& snake, const Food& food, int score){
+// Drawing the Grid along with both Snakes on the terminal
+void GameGrid::drawGameGrid(const Snake& snake1, const Snake& snake2, const Food& food, int score1, int score2){
 	setCursorPosition(0, 0);
 	hideCursor();
 
@@ -285,22 +267,19 @@ void GameGrid::drawGameGrid(const Snake& snake, const Food& food, int score){
          << "║       ✨ 🐍 S N A K E   G A M E 🐍 ✨     ║\n"
          << "║       ✨ 🐍    by SnakeByte++   🐍 ✨     ║\n"
          << "╠═══════════════════════════════════════════╣\n"
-         << "║  💚 Score: ";
+         << "║  💚 P1: ";
     
     setColor(15);
-    printf("%05d", score);
+    printf("%05d", score1);
     
     setColor(14);
-    cout << "   │     ";
-    setColor(10);
-    cout << "🧭 Dir: ";
+    cout << "   │  🟡 P2: ";
     setColor(15);
-    cout << snake.getDirection() << "     ";
+    printf("%05d", score2);
     setColor(14);
-    cout << "   ║\n"
+    cout << "      ║\n"
          << "╠═══════════════════════════════════════════╣\n"
-         << "║  🎮 [W] UP [A] LEFT [S] DOWN [D] RIGHT    ║\n"
-         << "║              [X] EXIT                     ║\n"
+         << "║  🎮 P1:[↑↓←→]  P2:[W][A][S][D]  [X]:EXIT ║\n"
          << "╠═══════════════════════════════════════════╣\n"
          << "║  💡 TIP: Eat 🍎 apples to grow & score!   ║\n"
          << "║  ⚠️ WARNING: Don't hit 🧱 walls           ║\n"
@@ -373,9 +352,9 @@ void GameGrid::drawGameGrid(const Snake& snake, const Food& food, int score){
 		for(int j = 0; j < width; j++){
 			bool isDrawn = false;
 			
-//			Rendering the Snake in the grid
-			for(size_t k = 0; k < snake.getSnakeBody().size(); ++k){
-				const Point& point = snake.getSnakeBody()[k];
+//			Rendering Snake 1 in the grid
+			for(size_t k = 0; k < snake1.getSnakeBody().size(); ++k){
+				const Point& point = snake1.getSnakeBody()[k];
 				
 				if(j == point.x && i == point.y){
 					std::cout << (k == 0 ? "🐍" : "🟢");
@@ -383,7 +362,21 @@ void GameGrid::drawGameGrid(const Snake& snake, const Food& food, int score){
 					isDrawn = true;
 					break;
 				}
-			}			
+			}
+
+//			Rendering Snake 2 in the grid
+			if(!isDrawn){
+				for(size_t k = 0; k < snake2.getSnakeBody().size(); ++k){
+					const Point& point = snake2.getSnakeBody()[k];
+					
+					if(j == point.x && i == point.y){
+						std::cout << (k == 0 ? "🦊" : "🟡");
+						
+						isDrawn = true;
+						break;
+					}
+				}
+			}
 			
 //			Drawing the other empty spaces
 			if(!isDrawn && j == food.getPosition().x && i == food.getPosition().y){
@@ -415,7 +408,7 @@ void GameGrid::drawGameGrid(const Snake& snake, const Food& food, int score){
                     cout << "◾";
                 #endif
 			}
-		}
+            
 		
 //		The right boundry
 		cout << "🧱";
