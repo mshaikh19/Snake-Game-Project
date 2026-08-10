@@ -24,10 +24,10 @@ class GameGrid{
 		void clearScreen();
 		// void drawHeader(int score, char direction);
 		// void drawFooter();
-		void showGameOver(int finalScore);
+		void showGameOver(int score1, int score2, int loser);
 		void showCursor();
 //		Draw grid along with the snake and the score
-		void drawGameGrid(const Snake& snake, const Food& food, int score);
+		void drawGameGrid(const Snake& snake1, const Snake& snake2, const Food& food, int score1, int score2);
 		
 		
 };
