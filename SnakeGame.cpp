@@ -24,6 +24,7 @@
 #include "Snake.h"
 #include "GameGrid.h"
 #include "Food.h"
+#include "InputSource.h"
 
 using namespace std;
 
@@ -130,6 +131,7 @@ int main() {
         char direction = 'D';
         bool gameOver = false;
         int score = 0;
+        ConsoleInputSource consoleInput;
     
         
         while (!gameOver) {
@@ -138,15 +140,8 @@ int main() {
             grid.drawGameGrid(snake, food, score);
             
             // Input
-            if (kbhit()) {
-                char input = getch();
-                if (input == 'x' || input == 'X'){
-                    break;
-                }
-                if (input == 'w' || input == 'W' || input == 'a' || input == 'A' ||
-                    input == 's' || input == 'S' || input == 'd' || input == 'D') {
-                    direction = toupper(input);
-                }
+            if (!processGameInput(consoleInput, direction)) {
+                break;
             }
             
             snake.move(direction, false);
